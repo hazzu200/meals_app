@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
-  const MealDetailScreen({super.key, required this.meal});
+  const MealDetailScreen(
+      {super.key, required this.meal, required this.onToggleFavorite});
 
   final Meal meal;
+  final void Function(Meal meal) onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +14,13 @@ class MealDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                onToggleFavorite(meal);
+              },
+              icon: const Icon(Icons.star))
+        ],
         title: Text(meal.title),
       ),
       body: SingleChildScrollView(
@@ -33,7 +42,9 @@ class MealDetailScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
             ),
-            const SizedBox(height: 14,),
+            const SizedBox(
+              height: 14,
+            ),
             ...meal.ingredients.map(
               (e) => Text(
                 e,
@@ -42,17 +53,22 @@ class MealDetailScreen extends StatelessWidget {
                     ),
               ),
             ),
-            const SizedBox(height: 24,),
-               Text(
+            const SizedBox(
+              height: 24,
+            ),
+            Text(
               "Steps",
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
             ),
-                ...meal.steps.map(
+            ...meal.steps.map(
               (e) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8,),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 child: Text(
                   e,
                   textAlign: TextAlign.center,
@@ -62,7 +78,9 @@ class MealDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 24,),
+            const SizedBox(
+              height: 24,
+            ),
           ],
         ),
       ),
